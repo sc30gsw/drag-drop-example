@@ -3,7 +3,11 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./App.css";
 
 export const App = () => {
-	const [items] = useState(["item0", "item1", "item2"]);
+	const [items] = useState([
+		{ id: 0, text: "item0" },
+		{ id: 1, text: "item1" },
+		{ id: 2, text: "item2" },
+	]);
 
 	/**
 	 * ドラッグ終了時(ドロップ時)にitemの並び替えを行う
@@ -30,42 +34,25 @@ export const App = () => {
 				<Droppable droppableId="droppable">
 					{(provided) => (
 						<div {...provided.droppableProps} ref={provided.innerRef}>
-							<Draggable draggableId="item0" index={0}>
-								{(provided) => (
-									<div
-										className="item"
-										ref={provided.innerRef}
-										{...provided.draggableProps}
-										{...provided.dragHandleProps}
-									>
-										{items[0]}
-									</div>
-								)}
-							</Draggable>
-							<Draggable draggableId="item1" index={1}>
-								{(provided) => (
-									<div
-										className="item"
-										ref={provided.innerRef}
-										{...provided.draggableProps}
-										{...provided.dragHandleProps}
-									>
-										{items[1]}
-									</div>
-								)}
-							</Draggable>
-							<Draggable draggableId="item2" index={2}>
-								{(provided) => (
-									<div
-										className="item"
-										ref={provided.innerRef}
-										{...provided.draggableProps}
-										{...provided.dragHandleProps}
-									>
-										{items[2]}
-									</div>
-								)}
-							</Draggable>
+							{items.map((item, index) => (
+								<Draggable
+									draggableId={item.id.toString()}
+									index={index}
+									key={item.id}
+								>
+									{(provided) => (
+										<div
+											className="item"
+											ref={provided.innerRef}
+											{...provided.draggableProps}
+											{...provided.dragHandleProps}
+										>
+											{item.text}
+										</div>
+									)}
+								</Draggable>
+							))}
+
 							{provided.placeholder}
 						</div>
 					)}
